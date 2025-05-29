@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/rescuemedb
+    username: admin
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+jwt:
+  secret: SHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH!
+cors:
+  allowed-origins:
+    - http://localhost:4200/
+azure:
+  blob-storage:
+    connection-string: DefaultEndpointsProtocol:https;AccountName:blobstoragerescueme;AccountKey:Hn7Bt6+hJbjQFDuxnlw13zA239/9uS27sbcE/mP/+CDwc1MGzNE1thWRFEPLYpSDCt7ygTpiLNix+AStA6IwdQ::;EndpointSuffix:core:windows:net
+    container-name: imagenes
