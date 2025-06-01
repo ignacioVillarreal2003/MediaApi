@@ -1,7 +1,6 @@
 services:
   mediaapi:
     build:
-      context: .
       dockerfile: Dockerfile
     container_name: api
     environment:
