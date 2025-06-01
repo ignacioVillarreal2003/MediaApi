@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://postgresql:5432/mediadb
+    url: jdbc:postgresql://postgresql_media_api:5432/mediadb
     username: IgnacioVillarreal
     password: 12345678
   jpa:
@@ -19,7 +19,7 @@ spring:
       max-request-size: 10MB
 
   rabbitmq:
-    host: rabbitmq
+    host: rabbitmq_media_api
     port: 5672
     username: IgnacioVillarreal
     password: 12345678

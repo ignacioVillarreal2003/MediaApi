@@ -1,24 +1,24 @@
 services:
-  mediaapi:
+  media_api:
     build:
       dockerfile: Dockerfile
-    container_name: api
+    container_name: media_api
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
       - "8083:8080"
     depends_on:
-      rabbitmq:
+      rabbitmq_media_api:
         condition: service_healthy
-      azurite:
+      postgresql_media_api:
         condition: service_healthy
-      postgresql:
-        condition: service_healthy
+      azurite_media_api:
+        condition: service_started
     restart: on-failure
 
-  rabbitmq:
+  rabbitmq_media_api:
     image: rabbitmq:management
-    container_name: rabbitmq
+    container_name: rabbitmq_media_api
     environment:
       - RABBITMQ_DEFAULT_USER=IgnacioVillarreal
       - RABBITMQ_DEFAULT_PASS=12345678
@@ -31,23 +31,18 @@ services:
       timeout: 5s
       retries: 5
 
-  azurite:
+  azurite_media_api:
     image: mcr.microsoft.com/azure-storage/azurite
-    container_name: blob_storage
+    container_name: blob_storage_media_api
     command: "azurite-blob --blobHost 0.0.0.0"
     ports:
       - "10000:10000"
     volumes:
       - azurite_data:/data
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:10000"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
-  postgresql:
+  postgresql_media_api:
     image: postgres:latest
-    container_name: postgresql
+    container_name: postgresql_media_api
     environment:
       - POSTGRES_USER=IgnacioVillarreal
       - POSTGRES_PASSWORD=12345678
