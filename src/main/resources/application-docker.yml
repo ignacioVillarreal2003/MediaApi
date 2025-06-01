@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5435/mediadb
+    url: jdbc:postgresql://postgresql:5432/mediadb
     username: IgnacioVillarreal
     password: 12345678
   jpa:
@@ -19,14 +19,14 @@ spring:
       max-request-size: 10MB
 
   rabbitmq:
-    host: localhost
+    host: rabbitmq
     port: 5672
     username: IgnacioVillarreal
     password: 12345678
 
 azure:
   blob-storage:
-    connection-string: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCD+==;BlobEndpoint=http://localhost:10000/devstoreaccount1;
+    connection-string: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCD+==;BlobEndpoint=http://azurite:10000/devstoreaccount1;
     container-name: images
 
 rabbitmq:

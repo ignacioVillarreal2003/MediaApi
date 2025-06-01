@@ -3,6 +3,8 @@ package com.api.mediaapi.domain.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "image")
 @Getter
@@ -10,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Image extends Auditable<Long> {
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,8 +24,5 @@ public class Image extends Auditable<Long> {
     private String url;
 
     @Column(nullable = false)
-    private Boolean isPublic = true;
-
-    @Column(nullable = false)
-    private Long userId;
+    private UUID referenceId;
 }

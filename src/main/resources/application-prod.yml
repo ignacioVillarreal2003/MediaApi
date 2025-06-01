@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5435/mediadb
-    username: IgnacioVillarreal
-    password: 12345678
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
@@ -19,15 +19,15 @@ spring:
       max-request-size: 10MB
 
   rabbitmq:
-    host: localhost
-    port: 5672
-    username: IgnacioVillarreal
-    password: 12345678
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
 
 azure:
   blob-storage:
-    connection-string: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCD+==;BlobEndpoint=http://localhost:10000/devstoreaccount1;
-    container-name: images
+    connection-string: ${AZURE_BLOB_STORAGE_CONNECTION_STRING}
+    container-name: ${AZURE_BLOB_STORAGE_CONTAINER_NAME}
 
 rabbitmq:
   exchange: RescueMeExchange

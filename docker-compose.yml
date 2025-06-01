@@ -1,0 +1,68 @@
+services:
+  mediaapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8083:8080"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      azurite:
+        condition: service_healthy
+      postgresql:
+        condition: service_healthy
+    restart: on-failure
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=IgnacioVillarreal
+      - RABBITMQ_DEFAULT_PASS=12345678
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: blob_storage
+    command: "azurite-blob --blobHost 0.0.0.0"
+    ports:
+      - "10000:10000"
+    volumes:
+      - azurite_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:10000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgresql:
+    image: postgres:latest
+    container_name: postgresql
+    environment:
+      - POSTGRES_USER=IgnacioVillarreal
+      - POSTGRES_PASSWORD=12345678
+      - POSTGRES_DB=mediadb
+    ports:
+      - "5435:5432"
+    volumes:
+      - mediadb_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "IgnacioVillarreal", "-d", "mediadb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  azurite_data:
+  mediadb_data:

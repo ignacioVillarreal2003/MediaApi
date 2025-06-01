@@ -8,13 +8,14 @@ import java.util.function.Function;
 
 @Service
 public class ImageResponseMapper implements Function<Image, ImageResponse> {
+
     @Override
     public ImageResponse apply(Image image) {
         return ImageResponse.builder()
                 .id(image.getId())
                 .originalName(image.getOriginalName())
                 .url(image.getUrl())
-                .userId(image.getUserId())
+                .referenceId(image.getReferenceId())
                 .build();
     }
 }

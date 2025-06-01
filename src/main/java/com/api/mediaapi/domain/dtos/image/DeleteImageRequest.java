@@ -8,8 +8,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class CreateImageRequest implements Serializable {
+public class DeleteImageRequest implements Serializable {
     private UUID referenceId;
-    private String imageName;
-    private String imageBase64;
+    private Long imageId;
 }

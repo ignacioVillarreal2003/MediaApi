@@ -64,17 +64,17 @@ public class AzureBlobStorageService {
         }
     }
 
-    public String uploadImage(MultipartFile file) {
-        if (file == null || file.isEmpty()) {
+    public String uploadImage(byte[] imageBytes) {
+        if (imageBytes == null || imageBytes.length == 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
         BlobContainerClient containerClient = getContainerClient();
-        String filename = UUID.randomUUID() + "-" + file.getOriginalFilename();
+        String filename = UUID.randomUUID() + ".jpg";
         BlobClient blobClient = containerClient.getBlobClient(filename);
 
-        try (InputStream inputStream = file.getInputStream()) {
-            blobClient.upload(inputStream, file.getSize(), true);
+        try (InputStream inputStream = new java.io.ByteArrayInputStream(imageBytes)) {
+            blobClient.upload(inputStream, imageBytes.length, true);
             return blobClient.getBlobName();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
