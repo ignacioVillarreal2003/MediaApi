@@ -3,5 +3,24 @@ spring:
     name: MediaApi
   profiles:
     active: dev
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+
 server:
   port: 8083
+
+rabbitmq:
+  exchange:
+    image: mediaApi.image.exchange
+  queue:
+    create-images-command: mediaApi.createImagesCommand.queue
+    delete-image-command: mediaApi.deleteImageCommand.queue
+    delete-images-by-reference-command: mediaApi.deleteImagesByReferenceCommand.queue
+  routing-key:
+    create-images-command: mediaApi.createImagesCommand.routingKey
+    delete-image-command: mediaApi.deleteImageCommand.routingKey
+    delete-images-by-reference-command: mediaApi.deleteImagesByReferenceCommand.routingKey

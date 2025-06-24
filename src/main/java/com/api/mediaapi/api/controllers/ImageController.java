@@ -17,7 +17,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ImageController {
 
-    private ImageService imageService;
+    private final ImageService imageService;
 
     @GetMapping("reference/{id}")
     public ResponseEntity<List<ImageResponse>> getImages(@PathVariable UUID id) {

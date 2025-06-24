@@ -28,14 +28,3 @@ azure:
   blob-storage:
     connection-string: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCD+==;BlobEndpoint=http://azurite:10000/devstoreaccount1;
     container-name: images
-
-rabbitmq:
-  exchange: RescueMeExchange
-  queue:
-    create: RescueMeCreateImageQueue
-    delete: RescueMeDeleteImageQueue
-    deleteAll: RescueMeDeleteImagesQueue
-  routing-key:
-    create: RescueMeCreateImageRoutingKey
-    delete: RescueMeDeleteImageRoutingKey
-    deleteAll: RescueMeDeleteImagesRoutingKey

@@ -10,7 +10,7 @@ import java.util.UUID;
 @Builder
 public class ImageResponse implements Serializable {
     private Long id;
-    private String originalName;
     private String url;
+    private String fileName;
     private UUID referenceId;
 }

@@ -13,7 +13,7 @@ public class ImageResponseMapper implements Function<Image, ImageResponse> {
     public ImageResponse apply(Image image) {
         return ImageResponse.builder()
                 .id(image.getId())
-                .originalName(image.getOriginalName())
+                .fileName(image.getFileName())
                 .url(image.getUrl())
                 .referenceId(image.getReferenceId())
                 .build();

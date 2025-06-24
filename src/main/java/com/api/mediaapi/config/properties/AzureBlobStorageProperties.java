@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "azure.blobstorage")
+@ConfigurationProperties(prefix = "azure.blob-storage")
 @Getter
 @Setter
 public class AzureBlobStorageProperties {

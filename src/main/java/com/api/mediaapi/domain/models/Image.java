@@ -18,7 +18,7 @@ public class Image {
     private Long id;
 
     @Column(nullable = false)
-    private String originalName;
+    private String fileName;
 
     @Column(nullable = false)
     private String url;

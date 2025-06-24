@@ -12,12 +12,6 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 10MB
-      max-request-size: 10MB
-
   rabbitmq:
     host: ${RABBITMQ_HOST}
     port: ${RABBITMQ_PORT}
@@ -28,14 +22,3 @@ azure:
   blob-storage:
     connection-string: ${AZURE_BLOB_STORAGE_CONNECTION_STRING}
     container-name: ${AZURE_BLOB_STORAGE_CONTAINER_NAME}
-
-rabbitmq:
-  exchange: RescueMeExchange
-  queue:
-    create: RescueMeCreateImageQueue
-    delete: RescueMeDeleteImageQueue
-    deleteAll: RescueMeDeleteImagesQueue
-  routing-key:
-    create: RescueMeCreateImageRoutingKey
-    delete: RescueMeDeleteImageRoutingKey
-    deleteAll: RescueMeDeleteImagesRoutingKey
