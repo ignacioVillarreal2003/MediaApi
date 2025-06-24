@@ -25,6 +25,7 @@ public class RabbitProperties {
     @Setter
     public static class Queues {
         private String createImagesCommand;
+        private String reorderImagesCommand;
         private String deleteImageCommand;
         private String deleteImagesByReferenceCommand;
     }
@@ -33,6 +34,7 @@ public class RabbitProperties {
     @Setter
     public static class RoutingKeys {
         private String createImagesCommand;
+        private String reorderImagesCommand;
         private String deleteImageCommand;
         private String deleteImagesByReferenceCommand;
     }

@@ -4,6 +4,7 @@ import com.api.mediaapi.api.producers.CreateImagesSagaPublisher;
 import com.api.mediaapi.application.services.ImageService;
 import com.api.mediaapi.domain.dtos.image.CreateImagesCommand;
 import com.api.mediaapi.domain.dtos.image.CreateImagesReply;
+import com.api.mediaapi.domain.dtos.image.ImageResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -25,13 +26,12 @@ public class CreateImagesSagaConsumer {
     public void handleCreateImagesCommand(@Valid @Payload CreateImagesCommand message) {
         UUID sagaId = message.sagaId();
         try {
-            List<Long> imagesIds = imageService.createImages(message);
+            List<ImageResponse> images = imageService.createImages(message);
 
             CreateImagesReply response = CreateImagesReply.builder()
                     .sagaId(sagaId)
                     .success(true)
-                    .referenceId(message.referenceId())
-                    .imagesIds(imagesIds)
+                    .images(images)
                     .build();
 
             createImagesSagaPublisher.publishCreateImagesReply(response);

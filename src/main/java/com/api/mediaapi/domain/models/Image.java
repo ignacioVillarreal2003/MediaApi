@@ -6,7 +6,11 @@ import lombok.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "image")
+@Table(
+        name = "images",
+        indexes = @Index(name = "idx_reference_order", columnList = "reference_id, order_index"),
+        uniqueConstraints = @UniqueConstraint(name = "uk_reference_order", columnNames = {"reference_id", "order_index"})
+)
 @Getter
 @Setter
 @AllArgsConstructor
@@ -25,4 +29,7 @@ public class Image {
 
     @Column(nullable = false)
     private UUID referenceId;
+
+    @Column(nullable = false)
+    private Integer orderIndex;
 }

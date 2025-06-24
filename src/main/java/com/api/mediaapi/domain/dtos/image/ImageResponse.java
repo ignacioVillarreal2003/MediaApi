@@ -13,4 +13,6 @@ public class ImageResponse implements Serializable {
     private String url;
     private String fileName;
     private UUID referenceId;
+    private Boolean isCover;
+    private Integer orderIndex;
 }

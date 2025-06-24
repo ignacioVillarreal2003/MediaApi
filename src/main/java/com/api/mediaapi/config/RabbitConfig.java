@@ -14,26 +14,31 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class RabbitConfig {
 
-    private final RabbitProperties rabbitMQProperties;
+    private final RabbitProperties rabbitProperties;
 
     @Bean
     public TopicExchange imageExchange() {
-        return new TopicExchange(rabbitMQProperties.getExchange().getImage());
+        return new TopicExchange(rabbitProperties.getExchange().getImage());
     }
 
     @Bean
     public Queue createImagesCommandQueue() {
-        return new Queue(rabbitMQProperties.getQueue().getCreateImagesCommand());
+        return new Queue(rabbitProperties.getQueue().getCreateImagesCommand());
+    }
+
+    @Bean
+    public Queue reorderImagesCommandQueue() {
+        return new Queue(rabbitProperties.getQueue().getReorderImagesCommand());
     }
 
     @Bean
     public Queue deleteImageCommandQueue() {
-        return new Queue(rabbitMQProperties.getQueue().getDeleteImageCommand());
+        return new Queue(rabbitProperties.getQueue().getDeleteImageCommand());
     }
 
     @Bean
     public Queue deleteImagesByReferenceCommandQueue() {
-        return new Queue(rabbitMQProperties.getQueue().getDeleteImagesByReferenceCommand());
+        return new Queue(rabbitProperties.getQueue().getDeleteImagesByReferenceCommand());
     }
 
     @Bean
@@ -41,7 +46,15 @@ public class RabbitConfig {
         return BindingBuilder
                 .bind(createImagesCommandQueue())
                 .to(imageExchange())
-                .with(rabbitMQProperties.getRoutingKey().getCreateImagesCommand());
+                .with(rabbitProperties.getRoutingKey().getCreateImagesCommand());
+    }
+
+    @Bean
+    public Binding bindingReorderImagesCommand() {
+        return BindingBuilder
+                .bind(reorderImagesCommandQueue())
+                .to(imageExchange())
+                .with(rabbitProperties.getRoutingKey().getReorderImagesCommand());
     }
 
     @Bean
@@ -49,7 +62,7 @@ public class RabbitConfig {
         return BindingBuilder
                 .bind(deleteImageCommandQueue())
                 .to(imageExchange())
-                .with(rabbitMQProperties.getRoutingKey().getDeleteImageCommand());
+                .with(rabbitProperties.getRoutingKey().getDeleteImageCommand());
     }
 
     @Bean
@@ -57,7 +70,7 @@ public class RabbitConfig {
         return BindingBuilder
                 .bind(deleteImagesByReferenceCommandQueue())
                 .to(imageExchange())
-                .with(rabbitMQProperties.getRoutingKey().getDeleteImagesByReferenceCommand());
+                .with(rabbitProperties.getRoutingKey().getDeleteImagesByReferenceCommand());
     }
 
     @Bean

@@ -18,9 +18,11 @@ rabbitmq:
     image: mediaApi.image.exchange
   queue:
     create-images-command: mediaApi.createImagesCommand.queue
+    reorder-images-command: mediaApi.reorderImagesCommand.queue
     delete-image-command: mediaApi.deleteImageCommand.queue
     delete-images-by-reference-command: mediaApi.deleteImagesByReferenceCommand.queue
   routing-key:
     create-images-command: mediaApi.createImagesCommand.routingKey
+    reorder-images-command: mediaApi.reorderImagesCommand.queue
     delete-image-command: mediaApi.deleteImageCommand.routingKey
     delete-images-by-reference-command: mediaApi.deleteImagesByReferenceCommand.routingKey

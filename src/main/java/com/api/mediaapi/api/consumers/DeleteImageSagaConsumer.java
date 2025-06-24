@@ -29,8 +29,6 @@ public class DeleteImageSagaConsumer {
             DeleteImageReply response = DeleteImageReply.builder()
                     .sagaId(sagaId)
                     .success(true)
-                    .referenceId(message.referenceId())
-                    .imageId(message.imageId())
                     .build();
 
             deleteImageSagaPublisher.publishDeleteImageReply(response);

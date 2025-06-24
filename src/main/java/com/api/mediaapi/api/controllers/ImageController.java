@@ -4,12 +4,10 @@ import com.api.mediaapi.application.services.ImageService;
 import com.api.mediaapi.domain.dtos.image.ImageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -19,15 +17,21 @@ public class ImageController {
 
     private final ImageService imageService;
 
-    @GetMapping("reference/{id}")
-    public ResponseEntity<List<ImageResponse>> getImages(@PathVariable UUID id) {
-        List<ImageResponse> response = imageService.getImagesByReferenceId(id);
+    @GetMapping("reference/{referenceId}")
+    public ResponseEntity<List<ImageResponse>> getImagesByReferenceId(@PathVariable UUID referenceId) {
+        List<ImageResponse> response = imageService.getImagesByReferenceId(referenceId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<ImageResponse> getImage(@PathVariable Long id) {
         ImageResponse response = imageService.getImage(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("covers")
+    public ResponseEntity<Map<UUID, ImageResponse>> getCoverImagesBatch(@RequestParam List<UUID> referenceIds) {
+        Map<UUID, ImageResponse> response = imageService.getCoverImagesBatch(referenceIds);
         return ResponseEntity.ok(response);
     }
 }

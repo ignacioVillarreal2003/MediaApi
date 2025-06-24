@@ -9,8 +9,7 @@ import java.util.UUID;
 @Builder
 public class CreateImagesReply implements Serializable {
         private UUID sagaId;
-        private UUID referenceId;
-        private List<Long> imagesIds;
+        private List<ImageResponse> images;
         private boolean success;
         private String errorMessage;
 }

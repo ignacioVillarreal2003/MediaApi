@@ -11,10 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,20 +33,32 @@ public class ImageService {
     }
 
     public List<ImageResponse> getImagesByReferenceId(UUID referenceId) {
-        List<Image> images = imageRepository.findAllByReferenceId(referenceId);
+        List<Image> images = imageRepository.findAllByReferenceIdOrderByOrderIndexAsc(referenceId);
 
-        images.forEach(image -> {
-            image.setUrl(azureBlobStorageService.getPublicImageUrl(image.getUrl()));
-        });
+        images.forEach(img -> img.setUrl(azureBlobStorageService.getPublicImageUrl(img.getUrl())));
 
         return images.stream()
                 .map(imageResponseMapper)
                 .collect(Collectors.toList());
     }
 
+    public Map<UUID, ImageResponse> getCoverImagesBatch(List<UUID> referenceIds) {
+        List<Image> images = imageRepository.findAllByIsCoverAndReferenceIds(referenceIds);
+
+        images.forEach(img -> img.setUrl(azureBlobStorageService.getPublicImageUrl(img.getUrl())));
+
+        return images.stream()
+                .collect(Collectors.toMap(
+                        Image::getReferenceId,
+                        imageResponseMapper));
+    }
+
     @Transactional
-    public List<Long> createImages(CreateImagesCommand request) {
-        List<Long> createdImagesIds = new ArrayList<>();
+    public List<ImageResponse> createImages(CreateImagesCommand request) {
+        Integer maxIndex = imageRepository.findMaxOrderIndex(request.referenceId());
+        AtomicInteger nextIndex = new AtomicInteger(maxIndex == null ? 1 : maxIndex + 1);
+
+        List<Image> images = new ArrayList<>();
 
         request.images().forEach((ImagePayload image) -> {
             byte[] imageBytes = Base64.getDecoder().decode(image.base64Data());
@@ -59,14 +69,18 @@ public class ImageService {
                     .fileName(image.fileName())
                     .url(url)
                     .referenceId(request.referenceId())
+                    .orderIndex(nextIndex.getAndIncrement())
                     .build();
 
             Image savedImage = imageRepository.save(newImage);
 
-            createdImagesIds.add(savedImage.getId());
+            images.add(savedImage);
         });
 
-        return createdImagesIds;
+        return images.stream()
+                .peek(img -> img.setUrl(azureBlobStorageService.getPublicImageUrl(img.getUrl())))
+                .map(imageResponseMapper)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -81,11 +95,51 @@ public class ImageService {
         azureBlobStorageService.deleteImage(image.getUrl());
 
         imageRepository.delete(image);
+
+        List<Image> toShift = imageRepository.findAllByReferenceIdOrderByOrderIndexAsc(request.referenceId()).stream()
+                .filter(i -> i.getOrderIndex() > image.getOrderIndex())
+                .toList();
+
+        for (Image i : toShift) {
+            imageRepository.updateOrderIndex(i.getId(), request.referenceId(), i.getOrderIndex() - 1);
+        }
+    }
+
+    @Transactional
+    public List<ImageResponse> reorderImages(ReorderImagesCommand request) {
+        List<Long> orderedIds = request.orderedImageIds();
+        UUID referenceId = request.referenceId();
+
+        List<Image> allImages = imageRepository.findAllByReferenceIdOrderByOrderIndexAsc(referenceId);
+        Set<Long> existingIds = allImages.stream().map(Image::getId).collect(Collectors.toSet());
+        Set<Long> orderedIdSet = new HashSet<>(orderedIds);
+
+        if (!existingIds.equals(orderedIdSet)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        for (int i = 0; i < orderedIds.size(); i++) {
+            Long imageId = orderedIds.get(i);
+            imageRepository.updateOrderIndex(imageId, referenceId, -(i + 1));
+        }
+
+        for (int i = 0; i < orderedIds.size(); i++) {
+            Long imageId = orderedIds.get(i);
+            imageRepository.updateOrderIndex(imageId, referenceId, i + 1);
+        }
+
+        List<Image> images = imageRepository.findAllByReferenceIdOrderByOrderIndexAsc(referenceId);
+
+        images.forEach(img -> img.setUrl(azureBlobStorageService.getPublicImageUrl(img.getUrl())));
+
+        return images.stream()
+                .map(imageResponseMapper)
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public void deleteImagesByReferenceId(DeleteImagesByReferenceCommand request) {
-        List<Image> images = imageRepository.findAllByReferenceId(request.referenceId());
+        List<Image> images = imageRepository.findAllByReferenceIdOrderByOrderIndexAsc(request.referenceId());
 
         images.forEach(image -> {
             azureBlobStorageService.deleteImage(image.getUrl());
