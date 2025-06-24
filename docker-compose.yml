@@ -8,28 +8,9 @@ services:
     ports:
       - "8083:8080"
     depends_on:
-      rabbitmq_media_api:
-        condition: service_healthy
-      postgresql_media_api:
-        condition: service_healthy
       azurite_media_api:
         condition: service_started
     restart: on-failure
-
-  rabbitmq_media_api:
-    image: rabbitmq:management
-    container_name: rabbitmq_media_api
-    environment:
-      - RABBITMQ_DEFAULT_USER=IgnacioVillarreal
-      - RABBITMQ_DEFAULT_PASS=12345678
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   azurite_media_api:
     image: mcr.microsoft.com/azure-storage/azurite
@@ -40,23 +21,5 @@ services:
     volumes:
       - azurite_data:/data
 
-  postgresql_media_api:
-    image: postgres:latest
-    container_name: postgresql_media_api
-    environment:
-      - POSTGRES_USER=IgnacioVillarreal
-      - POSTGRES_PASSWORD=12345678
-      - POSTGRES_DB=mediadb
-    ports:
-      - "5435:5432"
-    volumes:
-      - mediadb_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "IgnacioVillarreal", "-d", "mediadb"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
 volumes:
   azurite_data:
-  mediadb_data:

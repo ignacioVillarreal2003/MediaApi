@@ -1,6 +1,7 @@
 spring:
   application:
     name: MediaApi
+
   profiles:
     active: dev
 

@@ -9,6 +9,7 @@ spring:
     show-sql: true
     properties:
       hibernate:
+        default_schema: media_schema
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
@@ -18,7 +19,15 @@ spring:
     username: ${RABBITMQ_USERNAME}
     password: ${RABBITMQ_PASSWORD}
 
+  flyway:
+    enabled: true
+    schemas: auth_api
+    locations: classpath:db/migration
+
 azure:
   blob-storage:
     connection-string: ${AZURE_BLOB_STORAGE_CONNECTION_STRING}
     container-name: ${AZURE_BLOB_STORAGE_CONTAINER_NAME}
+
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGIN}
