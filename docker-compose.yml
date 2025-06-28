@@ -8,18 +8,23 @@ services:
     ports:
       - "8083:8080"
     depends_on:
-      azurite_media_api:
+      azure_blob_storage:
         condition: service_started
     restart: on-failure
 
-  azurite_media_api:
+  azure_blob_storage:
     image: mcr.microsoft.com/azure-storage/azurite
-    container_name: blob_storage_media_api
+    container_name: azure_blob_storage
     command: "azurite-blob --blobHost 0.0.0.0"
     ports:
       - "10000:10000"
     volumes:
-      - azurite_data:/data
+      - azure_blob_storage_data:/data
 
 volumes:
-  azurite_data:
+  azure_blob_storage_data:
+
+networks:
+  default:
+    external:
+      name: api_net

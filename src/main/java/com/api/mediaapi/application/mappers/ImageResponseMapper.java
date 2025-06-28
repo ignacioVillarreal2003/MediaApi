@@ -16,7 +16,6 @@ public class ImageResponseMapper implements Function<Image, ImageResponse> {
                 .fileName(image.getFileName())
                 .url(image.getUrl())
                 .referenceId(image.getReferenceId())
-                .isCover(image.getIsCover())
                 .orderIndex(image.getOrderIndex())
                 .build();
     }

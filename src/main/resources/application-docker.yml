@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://postgresql:5432/main_db
+    url: jdbc:postgresql://postgres:5432/main_db
     username: ignacio
     password: 12345678
   jpa:
@@ -26,7 +26,7 @@ spring:
 
 azure:
   blob-storage:
-    connection-string: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCD+==;BlobEndpoint=http://azurite:10000/devstoreaccount1;
+    connection-string: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCD+==;BlobEndpoint=http://azure_blob_storage:10000/devstoreaccount1;
     container-name: images
 
 cors:
