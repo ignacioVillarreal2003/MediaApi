@@ -21,7 +21,7 @@ spring:
 
   flyway:
     enabled: true
-    schemas: auth_api
+    schemas: media_schema
     locations: classpath:db/migration
 
 azure:
