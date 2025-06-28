@@ -18,7 +18,7 @@ public class RabbitProperties {
     @Getter
     @Setter
     public static class Exchange {
-        private String image;
+        private String media;
     }
 
     @Getter

@@ -29,6 +29,9 @@ azure:
     connection-string: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCD+==;BlobEndpoint=http://localhost:10000/devstoreaccount1;
     container-name: images
 
+jwt:
+  secret: 23e586808ea364607079ec5b830ba702e80680339864b175eb2f5a13abd214e7
+
 cors:
   allowed-origins:
     - http://localhost:4200/

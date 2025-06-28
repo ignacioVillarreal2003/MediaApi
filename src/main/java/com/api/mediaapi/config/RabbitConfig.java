@@ -17,8 +17,8 @@ public class RabbitConfig {
     private final RabbitProperties rabbitProperties;
 
     @Bean
-    public TopicExchange imageExchange() {
-        return new TopicExchange(rabbitProperties.getExchange().getImage());
+    public TopicExchange mediaExchange() {
+        return new TopicExchange(rabbitProperties.getExchange().getMedia());
     }
 
     @Bean
@@ -45,7 +45,7 @@ public class RabbitConfig {
     public Binding bindingCreateImagesCommand() {
         return BindingBuilder
                 .bind(createImagesCommandQueue())
-                .to(imageExchange())
+                .to(mediaExchange())
                 .with(rabbitProperties.getRoutingKey().getCreateImagesCommand());
     }
 
@@ -53,7 +53,7 @@ public class RabbitConfig {
     public Binding bindingReorderImagesCommand() {
         return BindingBuilder
                 .bind(reorderImagesCommandQueue())
-                .to(imageExchange())
+                .to(mediaExchange())
                 .with(rabbitProperties.getRoutingKey().getReorderImagesCommand());
     }
 
@@ -61,7 +61,7 @@ public class RabbitConfig {
     public Binding bindingDeleteImageCommand() {
         return BindingBuilder
                 .bind(deleteImageCommandQueue())
-                .to(imageExchange())
+                .to(mediaExchange())
                 .with(rabbitProperties.getRoutingKey().getDeleteImageCommand());
     }
 
@@ -69,7 +69,7 @@ public class RabbitConfig {
     public Binding bindingDeleteImagesByReferenceCommand() {
         return BindingBuilder
                 .bind(deleteImagesByReferenceCommandQueue())
-                .to(imageExchange())
+                .to(mediaExchange())
                 .with(rabbitProperties.getRoutingKey().getDeleteImagesByReferenceCommand());
     }
 

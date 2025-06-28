@@ -29,5 +29,8 @@ azure:
     connection-string: ${AZURE_BLOB_STORAGE_CONNECTION_STRING}
     container-name: ${AZURE_BLOB_STORAGE_CONTAINER_NAME}
 
+jwt:
+  secret: ${JWT_SECRET}
+
 cors:
   allowed-origins: ${CORS_ALLOWED_ORIGINS}
