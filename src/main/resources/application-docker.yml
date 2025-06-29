@@ -34,7 +34,7 @@ jwt:
 
 cors:
   allowed-origins:
-    - http://localhost:4200/
+    - http://rescuemeapp:4200/
 
 logging:
   level:
