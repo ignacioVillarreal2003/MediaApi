@@ -15,8 +15,8 @@ public class ReorderImagesSagaPublisher {
 
     public void publishReorderImagesReply(ReorderImagesReply message) {
         rabbitTemplate.convertAndSend(
-                rabbitProperties.getExchange().getImage(),
-                rabbitProperties.getRoutingKey().getCreateImagesCommand(),
+                rabbitProperties.getExchange().getMedia(),
+                rabbitProperties.getRoutingKey().getCreateImagesReply(),
                 message
         );
     }

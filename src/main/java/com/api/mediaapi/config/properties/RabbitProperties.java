@@ -28,6 +28,10 @@ public class RabbitProperties {
         private String reorderImagesCommand;
         private String deleteImageCommand;
         private String deleteImagesByReferenceCommand;
+        private String createImagesReply;
+        private String reorderImagesReply;
+        private String deleteImageReply;
+        private String deleteImagesByReferenceReply;
     }
 
     @Getter
@@ -37,5 +41,9 @@ public class RabbitProperties {
         private String reorderImagesCommand;
         private String deleteImageCommand;
         private String deleteImagesByReferenceCommand;
+        private String createImagesReply;
+        private String reorderImagesReply;
+        private String deleteImageReply;
+        private String deleteImagesByReferenceReply;
     }
 }

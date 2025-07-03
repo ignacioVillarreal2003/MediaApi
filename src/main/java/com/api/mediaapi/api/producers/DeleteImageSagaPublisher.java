@@ -15,8 +15,8 @@ public class DeleteImageSagaPublisher {
 
     public void publishDeleteImageReply(DeleteImageReply message) {
         rabbitTemplate.convertAndSend(
-                rabbitProperties.getExchange().getImage(),
-                rabbitProperties.getRoutingKey().getDeleteImageCommand(),
+                rabbitProperties.getExchange().getMedia(),
+                rabbitProperties.getRoutingKey().getDeleteImageReply(),
                 message
         );
     }

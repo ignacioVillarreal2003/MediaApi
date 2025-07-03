@@ -15,8 +15,8 @@ public class DeleteImagesByReferenceSagaPublisher {
 
     public void publishDeleteImagesByReferenceReply(DeleteImagesByReferenceReply message) {
         rabbitTemplate.convertAndSend(
-                rabbitProperties.getExchange().getImage(),
-                rabbitProperties.getRoutingKey().getDeleteImagesByReferenceCommand(),
+                rabbitProperties.getExchange().getMedia(),
+                rabbitProperties.getRoutingKey().getDeleteImagesByReferenceReply(),
                 message
         );
     }

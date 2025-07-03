@@ -15,8 +15,8 @@ public class CreateImagesSagaPublisher {
 
     public void publishCreateImagesReply(CreateImagesReply message) {
         rabbitTemplate.convertAndSend(
-                rabbitProperties.getExchange().getImage(),
-                rabbitProperties.getRoutingKey().getCreateImagesCommand(),
+                rabbitProperties.getExchange().getMedia(),
+                rabbitProperties.getRoutingKey().getCreateImagesReply(),
                 message
         );
     }

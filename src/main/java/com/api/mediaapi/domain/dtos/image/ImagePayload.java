@@ -9,8 +9,6 @@ public record ImagePayload (
         @NotNull(message = "Base 64 data is required")
         String base64Data,
 
-        Boolean isCover,
-
         Integer orderIndex
 ) {
 }

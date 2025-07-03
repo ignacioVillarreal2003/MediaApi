@@ -19,11 +19,19 @@ rabbitmq:
     media: mediaApi.exchange
   queue:
     create-images-command: mediaApi.createImagesCommand.queue
+    create-images-reply: mediaApi.createImagesReply.queue
     reorder-images-command: mediaApi.reorderImagesCommand.queue
+    reorder-images-reply: mediaApi.reorderImagesReply.queue
     delete-image-command: mediaApi.deleteImageCommand.queue
+    delete-image-reply: mediaApi.deleteImageReply.queue
     delete-images-by-reference-command: mediaApi.deleteImagesByReferenceCommand.queue
+    delete-images-by-reference-reply: mediaApi.deleteImagesByReferenceReply.queue
   routing-key:
     create-images-command: mediaApi.createImagesCommand.routingKey
+    create-images-reply: mediaApi.createImagesReply.routingKey
     reorder-images-command: mediaApi.reorderImagesCommand.routingKey
+    reorder-images-reply: mediaApi.reorderImagesReply.routingKey
     delete-image-command: mediaApi.deleteImageCommand.routingKey
+    delete-image-reply: mediaApi.deleteImageReply.routingKey
     delete-images-by-reference-command: mediaApi.deleteImagesByReferenceCommand.routingKey
+    delete-images-by-reference-reply: mediaApi.deleteImagesByReferenceReply.routingKey

@@ -42,6 +42,26 @@ public class RabbitConfig {
     }
 
     @Bean
+    public Queue createImagesReplyQueue() {
+        return new Queue(rabbitProperties.getQueue().getCreateImagesReply());
+    }
+
+    @Bean
+    public Queue reorderImagesReplyQueue() {
+        return new Queue(rabbitProperties.getQueue().getReorderImagesReply());
+    }
+
+    @Bean
+    public Queue deleteImageReplyQueue() {
+        return new Queue(rabbitProperties.getQueue().getDeleteImageReply());
+    }
+
+    @Bean
+    public Queue deleteImagesByReferenceReplyQueue() {
+        return new Queue(rabbitProperties.getQueue().getDeleteImagesByReferenceReply());
+    }
+
+    @Bean
     public Binding bindingCreateImagesCommand() {
         return BindingBuilder
                 .bind(createImagesCommandQueue())
@@ -71,6 +91,38 @@ public class RabbitConfig {
                 .bind(deleteImagesByReferenceCommandQueue())
                 .to(mediaExchange())
                 .with(rabbitProperties.getRoutingKey().getDeleteImagesByReferenceCommand());
+    }
+
+    @Bean
+    public Binding bindingCreateImagesReply() {
+        return BindingBuilder
+                .bind(createImagesReplyQueue())
+                .to(mediaExchange())
+                .with(rabbitProperties.getRoutingKey().getCreateImagesReply());
+    }
+
+    @Bean
+    public Binding bindingReorderImagesReply() {
+        return BindingBuilder
+                .bind(reorderImagesReplyQueue())
+                .to(mediaExchange())
+                .with(rabbitProperties.getRoutingKey().getReorderImagesReply());
+    }
+
+    @Bean
+    public Binding bindingDeleteImageReply() {
+        return BindingBuilder
+                .bind(deleteImageReplyQueue())
+                .to(mediaExchange())
+                .with(rabbitProperties.getRoutingKey().getDeleteImageReply());
+    }
+
+    @Bean
+    public Binding bindingDeleteImagesByReferenceReply() {
+        return BindingBuilder
+                .bind(deleteImagesByReferenceReplyQueue())
+                .to(mediaExchange())
+                .with(rabbitProperties.getRoutingKey().getDeleteImagesByReferenceReply());
     }
 
     @Bean
