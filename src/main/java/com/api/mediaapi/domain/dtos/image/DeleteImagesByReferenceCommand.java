@@ -5,10 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 public record DeleteImagesByReferenceCommand(
-    @NotNull(message = "Saga id is required")
     UUID sagaId,
-
-    @NotNull(message = "Reference id is required")
     UUID referenceId
 ) {
 }
